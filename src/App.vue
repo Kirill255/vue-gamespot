@@ -1,11 +1,21 @@
 <template>
-  <div>app</div>
+  <div>
+    <comp-header />
+    <div>content</div>
+    <comp-footer />
+  </div>
 </template>
 
 <script>
+import compHeader from "./components/Header-Footer/Header";
+import compFooter from "./components/Header-Footer/Footer";
+
 export default {
   name: "app",
-  components: {}
+  components: {
+    compHeader,
+    compFooter
+  }
 };
 </script>
 
