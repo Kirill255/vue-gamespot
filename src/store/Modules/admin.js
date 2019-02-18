@@ -9,7 +9,8 @@ const admin = {
   state: {
     token: null,
     refresh: null,
-    authFailed: false
+    authFailed: false,
+    refreshLoading: true
   },
   getters: {
     isAuth(state) {
@@ -17,6 +18,9 @@ const admin = {
         return true;
       }
       return false;
+    },
+    refreshLoading(state) {
+      return state.refreshLoading;
     }
   },
   mutations: {
@@ -43,6 +47,9 @@ const admin = {
       localStorage.removeItem("refresh");
 
       router.push("/");
+    },
+    refreshLoading(state) {
+      state.refreshLoading = false;
     }
   },
   actions: {
@@ -64,6 +71,30 @@ const admin = {
         .catch((err) => {
           commit("authFailed");
         });
+    },
+    refreshToken({ commit }) {
+      const refreshToken = localStorage.getItem("refresh");
+
+      if (refreshToken) {
+        Vue.http
+          .post(`https://securetoken.googleapis.com/v1/token?key=${FbApiKey}`, {
+            grant_type: "refresh_token",
+            refresh_token: refreshToken
+          })
+          .then((response) => response.json())
+          .then((authData) => {
+            commit("authUser", {
+              idToken: authData.id_token,
+              refreshToken: authData.refresh_token,
+              type: "refresh"
+            });
+            commit("refreshLoading");
+            localStorage.setItem("token", authData.id_token);
+            localStorage.setItem("refresh", authData.refresh_token);
+          });
+      } else {
+        commit("refreshLoading");
+      }
     }
   }
 };
