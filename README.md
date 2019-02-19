@@ -42,3 +42,16 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### Firebase Auth REST API
 
 https://firebase.google.com/docs/reference/rest/auth/
+
+### Firebase database rules
+
+Читать могут все, а записывать только если "auth != null", в нашем случае это только админ.
+
+```json
+{
+  "rules": {
+    ".read": true,
+    ".write": "auth != null"
+  }
+}
+```

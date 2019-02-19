@@ -3,6 +3,7 @@ import App from "./App.vue";
 
 import VueResource from "vue-resource";
 import Vuelidate from "vuelidate";
+import wysiwyg from "vue-wysiwyg";
 
 import router from "./routes";
 import store from "./store/store";
@@ -19,6 +20,8 @@ Vue.use(VueResource);
 Vue.http.options.root = "https://vue-gamespot.firebaseio.com/";
 
 Vue.use(Vuelidate);
+
+Vue.use(wysiwyg, {});
 
 import Button from "./components/UI/button.vue";
 Vue.component("app-button", Button);
