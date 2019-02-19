@@ -56,6 +56,10 @@ https://firebase.google.com/docs/reference/rest/auth/
 }
 ```
 
+### Firebase retrieving data
+
+https://firebase.google.com/docs/database/rest/retrieve-data
+
 ## Cloudinary
 
 https://cloudinary.com/documentation/upload_images#uploading_with_a_direct_call_to_the_api

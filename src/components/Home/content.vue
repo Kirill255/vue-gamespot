@@ -6,7 +6,8 @@
         :key="index"
       >
         <md-card-media md-ratio="4:3">
-          <img :src="require(`../../assets/images/featured/${post.img}`)" />
+          <!-- <img :src="require(`../../assets/images/featured/${post.img}`)" /> -->
+          <img :src="post.img" />
         </md-card-media>
 
         <md-card-header>
@@ -31,13 +32,23 @@
 </template>
 
 <script>
-import posts from "../../assets/posts.js";
+// import posts from "../../assets/posts.js";
 
 export default {
   data() {
     return {
-      posts
+      // posts
     };
+  },
+  computed: {
+    posts() {
+      return this.$store.getters["posts/getAllPosts"];
+    }
+  },
+  created() {
+    this.$store.dispatch("posts/getAllPosts", {
+      limit: 3
+    });
   }
 };
 </script>
