@@ -28,6 +28,17 @@
         </md-card-actions>
       </md-card>
     </div>
+
+    <div class="load_more">
+      <app-button
+        type="btn"
+        :addClass="['small_link']"
+        :action="loadMore"
+      >
+        Load More
+      </app-button>
+    </div>
+
   </div>
 </template>
 
@@ -43,6 +54,14 @@ export default {
   computed: {
     posts() {
       return this.$store.getters["posts/getAllPosts"];
+    }
+  },
+  methods: {
+    loadMore() {
+      // это самый простой вариант, просто грузим все посты снова, но только на 3 больше, тоесть если у нас было 3 поста, то теперь нужно загрузить уже 6, хотя вроде через rest по другому не сделать, можно попробовать с https://firebase.google.com/docs/database/rest/retrieve-data#range-queries, но для нормальной пагинации нужна библиотека https://firebase.google.com/docs/libraries/ или firestore https://firebase.google.com/docs/firestore/query-data/query-cursors
+      this.$store.dispatch("posts/getAllPosts", {
+        limit: this.posts.length + 3
+      });
     }
   },
   created() {
