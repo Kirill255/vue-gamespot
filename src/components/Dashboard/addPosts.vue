@@ -3,6 +3,17 @@
     <h1>Add posts</h1>
     <form @submit.prevent="submitHandler">
 
+      <div v-if="imageUpload">
+        <img :src="imageUpload" />
+      </div>
+      <div class="input_field">
+        <input
+          type="file"
+          @change="processFile($event)"
+          ref="myFileInput"
+        >
+      </div>
+
       <div
         class="input_field"
         :class="{invalid: $v.formdata.title.$error}"
@@ -115,6 +126,7 @@ export default {
     return {
       dialog: false,
       formdata: {
+        img: "",
         title: "",
         desc: "",
         content: "",
@@ -136,20 +148,37 @@ export default {
       }
     }
   },
+  watch: {
+    imageUpload: {
+      deep: true,
+      handler: function(newVal) {
+        this.formdata.img = newVal;
+      }
+    }
+  },
   computed: {
     addpost() {
       let status = this.$store.getters["admin/addPostStatus"];
       if (status) {
         this.clearPost();
+        this.$store.commit("admin/clearImageUpload");
       }
 
       return status;
+    },
+    imageUpload() {
+      let imageUrl = this.$store.getters["admin/imageUpload"];
+      // мы не можем (вернее можем, но eslint рекомендует не мутировать данные в computed свойствах, всегда возвращать новые ссылки или данные) https://stackoverflow.com/a/53757640, поэтому мы сделаем watcher на наше свойство imageUpload, когда оно изменится, это значит пришло новое значение, или url или null
+      // this.formdata.img = imageUrl;
+      return imageUrl;
     }
   },
   methods: {
     clearPost() {
       this.$v.$reset();
+      this.$refs.myFileInput.value = "";
       this.formdata = {
+        img: "",
         title: "",
         desc: "",
         content: "",
@@ -179,7 +208,14 @@ export default {
     },
     addPost() {
       this.$store.dispatch("admin/addPost", this.formdata);
+    },
+    processFile(event) {
+      let file = event.target.files[0];
+      this.$store.dispatch("admin/imageUpload", file);
     }
+  },
+  destroyed() {
+    this.$store.commit("admin/clearImageUpload");
   }
 };
 </script>

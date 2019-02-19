@@ -55,3 +55,15 @@ https://firebase.google.com/docs/reference/rest/auth/
   }
 }
 ```
+
+## Cloudinary
+
+https://cloudinary.com/documentation/upload_images#uploading_with_a_direct_call_to_the_api
+
+Так как мы загружаем картинки с клиента просто через POST-запрос по прямой ссылке, а не с сервера (для сервера есть специальные библиотеки под каждый язык), то сначала нам нужно включить 'Enable unsigned uploading', после чего будет сгенерирован новый пресет, нам нужно его название 'Name'.
+
+![account-details](https://user-images.githubusercontent.com/24504648/53042044-74c02900-3496-11e9-8217-fd90e9fd3c91.png)
+
+![cloudinary-settings](https://user-images.githubusercontent.com/24504648/53042057-7ab60a00-3496-11e9-9a0c-05bef15c551b.png)
+
+![enable-unsigned-uploading](https://user-images.githubusercontent.com/24504648/53042068-7ee22780-3496-11e9-9007-a68ef86240ac.png)
